@@ -73,4 +73,31 @@ public class UserDaoImp1 implements UserDao {
         return role;
     }
 
+    // ================================
+    // 🔥 NEW METHOD ADDED BELOW
+    // ================================
+
+    @Override
+    public boolean isUsernameExists(String username) {
+
+        String query = "SELECT * FROM users WHERE username = ?";
+        
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return true;   // Username already exists
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;  // Username not found
+    }
+
 }

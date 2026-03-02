@@ -19,24 +19,65 @@ public class registerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
+        String username = request.getParameter("username").trim();
+        String password = request.getParameter("password").trim();
+        String email = request.getParameter("email").trim();
+        
 
+     // 🔥 STEP 1: Username Validation
+     if (username.isEmpty()) {
+         request.setAttribute("error", "Username cannot be empty or spaces only");
+         request.getRequestDispatcher("register.jsp")
+                .forward(request, response);
+         return;
+     }
+
+     // 🔥 STEP 2: Password Validation
+     if (password.length() < 8 ||
+         !password.matches(".*[A-Z].*") ||
+         !password.matches(".*[a-z].*") ||
+         !password.matches(".*\\d.*")) {
+
+        
+
+         request.getRequestDispatcher("register.jsp")
+                .forward(request, response);
+         return;
+     }
+
+     // 🔥 STEP 3: Duplicate Username Check
+     if (userDao.isUsernameExists(username)) {
+
+         request.setAttribute("error", "Username already exists");
+         request.getRequestDispatcher("register.jsp")
+                .forward(request, response);
+         return;
+     }
+
+        // 🔥 STEP 1: Duplicate Username Check
+        if (userDao.isUsernameExists(username)) {
+
+            request.setAttribute("error", "Username already exists");
+            request.getRequestDispatcher("register.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        // STEP 2: Create User Object
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(password);
-
-        // 🔥 MOST IMPORTANT LINE
-        user.setRole("EMPLOYEE");   // ROLE FIXED HERE
+        user.setRole("EMPLOYEE");
 
         boolean success = userDao.addUser(user);
 
         if (success) {
             response.sendRedirect("login.jsp?registration=success");
         } else {
-            response.sendRedirect("register.jsp?error=1");
+            request.setAttribute("error", "Registration Failed");
+            request.getRequestDispatcher("register.jsp")
+                   .forward(request, response);
         }
     }
 }

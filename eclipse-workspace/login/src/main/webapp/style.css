@@ -14,7 +14,7 @@ body {
   color: #333;
 }
 
-/* ===== MAIN CONTAINER ===== */
+
 .container {
   width: 600px;
   padding: 20px;
@@ -24,7 +24,7 @@ body {
   text-align: center;
 }
 
-/* ===== LOGIN CARD ===== */
+
 .container1 {
   width: 350px;
   background: #ffffff;
@@ -34,7 +34,7 @@ body {
   text-align: center;
 }
 
-/* ===== HEADING ===== */
+
 h1 {
   font-weight: 600;
   color: #2c3e50;
@@ -70,7 +70,7 @@ input:focus {
   box-shadow: 0 0 4px rgba(0,123,255,0.3);
 }
 
-/* ===== BUTTONS ===== */
+
 button {
   padding: 10px 16px;
   margin: 5px;
@@ -88,7 +88,7 @@ button:hover {
   background: #0056b3;
 }
 
-/* ===== LINKS ===== */
+
 a {
   display: inline-block;
   margin-top: 12px;
